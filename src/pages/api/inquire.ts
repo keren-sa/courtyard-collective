@@ -1,5 +1,6 @@
 import type { APIRoute } from "astro";
 import { insertItem } from "../../lib/wix";
+import { sendInquiryConfirmation } from "../../lib/email";
 
 export const prerender = false;
 
@@ -26,21 +27,31 @@ export const POST: APIRoute = async ({ request }) => {
   }
 
   const payload = {
-    name: body.name,
-    email: body.email,
+    name: body.name!,
+    email: body.email!,
     phone: body.phone ?? "",
     apartmentOrCourtyardOfInterest: body.apartmentOrCourtyardOfInterest ?? "",
     howYouLikeToLive: body.howYouLikeToLive ?? "",
-    timeline: body.timeline,
+    timeline: body.timeline!,
     submittedAt: new Date().toISOString(),
   };
 
-  const result = await insertItem("Inquiries", payload);
-  if (!result.ok) {
-    console.warn("[inquire] insert failed:", result.reason, "payload:", payload);
-  }
+  const [cmsResult, emailResult] = await Promise.all([
+    insertItem("Inquiries", payload),
+    sendInquiryConfirmation({
+      name: payload.name,
+      email: payload.email,
+      phone: payload.phone,
+      apartmentOrCourtyardOfInterest: payload.apartmentOrCourtyardOfInterest,
+      howYouLikeToLive: payload.howYouLikeToLive,
+      timeline: payload.timeline,
+    }),
+  ]);
 
-  return json({ ok: true }, 200);
+  if (!cmsResult.ok) console.warn("[inquire] CMS insert failed:", cmsResult.reason);
+  if (!emailResult.ok) console.warn("[inquire] email send failed:", emailResult.reason);
+
+  return json({ ok: true, emailed: emailResult.ok }, 200);
 };
 
 function validate(b: InquiryBody): string[] {
