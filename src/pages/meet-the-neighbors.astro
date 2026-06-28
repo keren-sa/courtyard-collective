@@ -1,52 +1,13 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import Picture from "../components/Picture.astro";
 
 const steps = [
-  {
-    n: "01",
-    title: "Sit in the courtyard.",
-    body:
-      "Before the apartment, before the price, before the paperwork — we meet you in the well. We bring coffee. You watch how the light moves across the balconies. Half an hour is usually enough to know if it's your kind of quiet, or your kind of loud.",
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuCVjuugT66r7Kj9MrXo6YbhO4K2iln6w7tqkMhuOvxrM2L9yKkbeUAkmvlzcLb03ZcYXERW5bK8_34RVY6LKP5WWQ6a5U-zpQ4caQXShEd1NKwFmbTa8gCj0jVBB0CaXHLlIr6L8MVmTUu-73uN4w0dGMYfO_5w1RxAEpoMGYIKuAsXdChjAOGr9ppueTLpB3W5jBmyt7zYWMF3xoX5AFAj21KPTcoB9MyLsRkn5XEeajROQ659bmF7X5fN_Oim3JUFd6gAVPvVHuk7",
-    imageAlt: "Long table under grapevines, ready for an unhurried afternoon.",
-  },
-  {
-    n: "02",
-    title: "The soft introduction.",
-    body:
-      "We knock on two or three doors. The neighbors who answer aren't here to interview you — they're here to be met. Most of the time someone produces wine, or jam, or a story about the building's plumbing.",
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuAzX3RZEeiK5zlO0fZtqzhJCGfA1wMUtY5LmiKRcUoqITKXDJrQhs20r8fWTwITOtNcdBAf0UbwckqIjC16J_D7pgtXo2w8UYlRK3llkb8yDm_FD2LrY6a3NBOyQTa8lgCfTIPn4FDnh9Q66s4Jzr2nl22TeDas2Vu1eGzbtmFOzTzmB349Y6K5paug2L6g_6tDamX-X9CGFIZ-kiRUn38Xe8hlHqZJdXcKbrYcvg1-esaUpCOM0mm8Y_ktyUbxRwLUPgbvjZILprXu",
-    imageAlt: "Two people sharing tea on a vine-shaded balcony.",
-  },
-  {
-    n: "03",
-    title: "Sharing the story.",
-    body:
-      "If everyone's still around when the sun gets lower, we sit at the long table. The courtyard's story comes out — who planted the vine, whose grandmother kept the shared ladder, which year someone tried to paint the door blue and was politely undone the next morning.",
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuCbQpA92-M3PnjZSDwUO0MnZr4RVbMZAGupvcnad6ltlh1KZxsCeZcUp7sgPPbHYzbO1McwqDNXoek2awiIGK4bjk-i8WGbuyLGyCPYvybfQEqBB22qeyuSeEdLIt-8y8CaYJRIfy_kF93vlgrUwSB5tnNE9TCFWpyGrnQFNaOq76bNgOVheZXvhu-4XhcYF_-riHHhCn_Gn36KnI0iwmNy3nXD4opWsDVuIjz6AANQE7n0Xe8FI4fw3ir9MOaxqhljjGK9FtAsySpY",
-    imageAlt: "Tall French doors open onto a balcony at golden hour.",
-  },
-  {
-    n: "04",
-    title: "The nod of approval.",
-    body:
-      "Both ways. You decide whether this is the courtyard you want to be known in. They decide whether you're someone they want to know. Most of the time it's a quiet yes from both sides. When it isn't, we keep looking — no bad feelings.",
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuAoV6_KY0IKllcYgcvZXT8P9KHScqTvXHkyw66R1vYH3H3LtSGzCc937KxqsEu1I1Wxmn13kGnJMfW7QH0qqQhWHtM_x6cPXKyUvTPOai7SPU0GIuJCRz71UNg7vCItDd6KaW6NXaLDUwoinZ9S9sSCeK19Ddf7wIQAOergD-lG6jujF9ErkXAG8dbAavfgA5TI8agD18-nxXbNgR0vRUyi91pRw53EFNcl_o3trekr5BzSF50mRFWyMVNiDZBa67R0PJns-EUC3Gp2",
-    imageAlt: "View from a wooden balcony into a multi-level Tbilisi courtyard.",
-  },
-  {
-    n: "05",
-    title: "Then we talk paperwork.",
-    body:
-      "Notary, deed, bank, registration. Three to six weeks usually. We walk you through every form. By the time you sign, the neighbors are already waving from across the well — they've decided you live here.",
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuCVgQXYQKJG2g5FRZ6HWRIQQOnvVUNsBqdzBC3C7DlSSEioSRCG5he9RAzmzfYO4wAhCWUOux2kq0Z-c3YBoDPf3zZlKwjiRlo9DufJZKGE-IBtsBfeGJZsx3h28vyszmuHHpmmwqPobPVF8hhI_kJt9-ZJ22sngrVYVPeqwie7R7Til7TOGx_IRsIwwRrauguVUQTVg1UYqPkNFxUEXFQWDycavk1l6ng9fQiWC9Or2f8bsZrLFk2jUHTC_KezDq6rpKeUsZerMN3W",
-    imageAlt: "Wrought-iron spiral staircase among vines.",
-  },
+  { n: "01", title: "Sit in the courtyard.", body: "Before the apartment, before the price, before the paperwork — we meet you in the well. We bring coffee. You watch how the light moves across the balconies. Half an hour is usually enough to know if it's your kind of quiet, or your kind of loud.", image: "apt-long-table", imageAlt: "Long table under grapevines, ready for an unhurried afternoon." },
+  { n: "02", title: "The soft introduction.", body: "We knock on two or three doors. The neighbors who answer aren't here to interview you — they're here to be met. Most of the time someone produces wine, or jam, or a story about the building's plumbing.", image: "meet-tea", imageAlt: "Two people sharing tea on a vine-shaded balcony." },
+  { n: "03", title: "Sharing the story.", body: "If everyone's still around when the sun gets lower, we sit at the long table. The courtyard's story comes out — who planted the vine, whose grandmother kept the shared ladder, which year someone tried to paint the door blue and was politely undone the next morning.", image: "apt-grapevine-flat", imageAlt: "Tall French doors open onto a balcony at golden hour." },
+  { n: "04", title: "The nod of approval.", body: "Both ways. You decide whether this is the courtyard you want to be known in. They decide whether you're someone they want to know. Most of the time it's a quiet yes from both sides. When it isn't, we keep looking — no bad feelings.", image: "apt-shared-ladder", imageAlt: "View from a wooden balcony into a multi-level Tbilisi courtyard." },
+  { n: "05", title: "Then we talk paperwork.", body: "Notary, deed, bank, registration. Three to six weeks usually. We walk you through every form. By the time you sign, the neighbors are already waving from across the well — they've decided you live here.", image: "apt-stairwell-cat", imageAlt: "Wrought-iron spiral staircase among vines." },
 ];
 ---
 
@@ -76,11 +37,10 @@ const steps = [
         return (
           <li class="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 items-center">
             <div class:list={["md:col-span-7", reverse && "md:order-2"]}>
-              <img
-                src={s.image}
+              <Picture
+                name={s.image}
                 alt={s.imageAlt}
-                loading="lazy"
-                decoding="async"
+                sizes="(min-width: 768px) 58vw, 100vw"
                 class="w-full aspect-[4/3] object-cover border border-[color:var(--color-border)]"
               />
             </div>

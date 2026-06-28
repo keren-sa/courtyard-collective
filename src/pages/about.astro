@@ -1,5 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import Picture from "../components/Picture.astro";
 import { aboutStory } from "../data/content";
 
 const aboutJsonLd = {
@@ -37,11 +38,10 @@ const aboutJsonLd = {
         </p>
       </div>
       <div class="md:col-span-5">
-        <img
-          src="https://lh3.googleusercontent.com/aida-public/AB6AXuC8qKrTe3j0SjCErG_QJD_UiVRh1YTSY7VV84mXzJdy7QN9Ml2RtYXK_uZRzQ8R5GJLfEKZZesVQuP7suFT-VIdI34qbxzdJgiy-MHN4EMSm72xo91un2YnlfIJ-u4QU060Yo4KVLwqPp0zQOq_GoFXsLvjQeFyWFgf1BGJ7iRJMFgaSFpyFfB1KGLtmDheYOaHLFUf-r8SjckUKZ0DCu7P4YJl_-EYBIIJS7wY5gkIESQSAelFhebErIfM6o4yAAnT08v2AZE85AuA"
+        <Picture
+          name="apt-piano-window"
           alt="An aged turquoise door in a courtyard, sunlight through dust motes."
-          loading="lazy"
-          decoding="async"
+          sizes="(min-width: 768px) 40vw, 100vw"
           class="w-full aspect-[3/4] object-cover border border-[color:var(--color-border)]"
         />
         <p class="caps text-[color:var(--color-text-muted)] mt-3 text-center italic">

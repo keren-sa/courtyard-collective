@@ -20,7 +20,7 @@ export interface Apartment {
   grapevineAgeYears: number;
   gossipRating: number;
   courtyardStory: string;
-  image: string;
+  imageKey: string;
   imageAlt: string;
 }
 
@@ -79,8 +79,7 @@ export const apartments: Apartment[] = [
     gossipRating: 8,
     courtyardStory:
       "A high-ceilinged flat opening onto the carved wooden balcony that rings Lado's Courtyard, where the grapevine planted after the war now shades the whole well by August.",
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuCbQpA92-M3PnjZSDwUO0MnZr4RVbMZAGupvcnad6ltlh1KZxsCeZcUp7sgPPbHYzbO1McwqDNXoek2awiIGK4bjk-i8WGbuyLGyCPYvybfQEqBB22qeyuSeEdLIt-8y8CaYJRIfy_kF93vlgrUwSB5tnNE9TCFWpyGrnQFNaOq76bNgOVheZXvhu-4XhcYF_-riHHhCn_Gn36KnI0iwmNy3nXD4opWsDVuIjz6AANQE7n0Xe8FI4fw3ir9MOaxqhljjGK9FtAsySpY",
+    imageKey: "apt-grapevine-flat",
     imageAlt:
       "Tall French doors open onto a vine-shaded wooden balcony in golden afternoon light.",
   },
@@ -97,8 +96,7 @@ export const apartments: Apartment[] = [
     gossipRating: 4,
     courtyardStory:
       "A calmer flat in the courtyard everyone calls the gentle one. The elderly piano teacher on the third floor sets the volume for the whole well.",
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuBJMJwd8UFY8hI9XcGEYEzNvyP37nFJjo7iBLztZWl62xHseH8AMWKPWrxKWj2YH4PlsA8BBCt752LKUPp6BzOmHZys0ugcxzMWhtiGNSnA_UhwH_H2U8p0GoqSZK5V3gHk2ykTsfVDCTWPp3h9cXGOKT0X03nNTgXyNqjKATHs1p-TNVkRIh7GLdM76frcM1r-XBjBK6O-i4djyFmnxPkmwCui6FPiKORamY3VxSUCoP6WswwOQaBhaLWmHIM-Fw9fLJAxGubtKriE",
+    imageKey: "apt-quiet-corner",
     imageAlt:
       "Vine-leaf shadows cast on a warm wooden floor beside an antique chair and stack of books.",
   },
@@ -115,8 +113,7 @@ export const apartments: Apartment[] = [
     gossipRating: 8,
     courtyardStory:
       "Named for the ladder kept in the stairwell, which everyone uses and no one owns. The flat looks straight down into the heart of the table.",
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuAoV6_KY0IKllcYgcvZXT8P9KHScqTvXHkyw66R1vYH3H3LtSGzCc937KxqsEu1I1Wxmn13kGnJMfW7QH0qqQhWHtM_x6cPXKyUvTPOai7SPU0GIuJCRz71UNg7vCItDd6KaW6NXaLDUwoinZ9S9sSCeK19Ddf7wIQAOergD-lG6jujF9ErkXAG8dbAavfgA5TI8agD18-nxXbNgR0vRUyi91pRw53EFNcl_o3trekr5BzSF50mRFWyMVNiDZBa67R0PJns-EUC3Gp2",
+    imageKey: "apt-shared-ladder",
     imageAlt:
       "View from a wooden balcony over a multi-level Tbilisi courtyard with hanging laundry.",
   },
@@ -133,8 +130,7 @@ export const apartments: Apartment[] = [
     gossipRating: 4,
     courtyardStory:
       "Two south-facing arched windows; you'll hear Mzia's old students every afternoon, mostly Chopin, occasionally Bartók when the brave ones come around.",
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuC8qKrTe3j0SjCErG_QJD_UiVRh1YTSY7VV84mXzJdy7QN9Ml2RtYXK_uZRzQ8R5GJLfEKZZesVQuP7suFT-VIdI34qbxzdJgiy-MHN4EMSm72xo91un2YnlfIJ-u4QU060Yo4KVLwqPp0zQOq_GoFXsLvjQeFyWFgf1BGJ7iRJMFgaSFpyFfB1KGLtmDheYOaHLFUf-r8SjckUKZ0DCu7P4YJl_-EYBIIJS7wY5gkIESQSAelFhebErIfM6o4yAAnT08v2AZE85AuA",
+    imageKey: "apt-piano-window",
     imageAlt:
       "A heavy turquoise wooden door in an aged brick wall, sunlight catching dust motes.",
   },
@@ -151,8 +147,7 @@ export const apartments: Apartment[] = [
     gossipRating: 6,
     courtyardStory:
       "Named for the cat that owns the spiral staircase here and the bowl that's always full thanks to whichever neighbor remembered first.",
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuCVgQXYQKJG2g5FRZ6HWRIQQOnvVUNsBqdzBC3C7DlSSEioSRCG5he9RAzmzfYO4wAhCWUOux2kq0Z-c3YBoDPf3zZlKwjiRlo9DufJZKGE-IBtsBfeGJZsx3h28vyszmuHHpmmwqPobPVF8hhI_kJt9-ZJ22sngrVYVPeqwie7R7Til7TOGx_IRsIwwRrauguVUQTVg1UYqPkNFxUEXFQWDycavk1l6ng9fQiWC9Or2f8bsZrLFk2jUHTC_KezDq6rpKeUsZerMN3W",
+    imageKey: "apt-stairwell-cat",
     imageAlt:
       "An ornate wrought-iron spiral staircase winds up through green ivy in late afternoon light.",
   },
@@ -169,8 +164,7 @@ export const apartments: Apartment[] = [
     gossipRating: 6,
     courtyardStory:
       "The flat whose terrace becomes part of the courtyard when the long table comes out for Saturday lunch, which is most Saturdays.",
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuCVjuugT66r7Kj9MrXo6YbhO4K2iln6w7tqkMhuOvxrM2L9yKkbeUAkmvlzcLb03ZcYXERW5bK8_34RVY6LKP5WWQ6a5U-zpQ4caQXShEd1NKwFmbTa8gCj0jVBB0CaXHLlIr6L8MVmTUu-73uN4w0dGMYfO_5w1RxAEpoMGYIKuAsXdChjAOGr9ppueTLpB3W5jBmyt7zYWMF3xoX5AFAj21KPTcoB9MyLsRkn5XEeajROQ659bmF7X5fN_Oim3JUFd6gAVPvVHuk7",
+    imageKey: "apt-long-table",
     imageAlt:
       "A long weathered table under a canopy of grapevines, mismatched chairs around it, golden hour light.",
   },

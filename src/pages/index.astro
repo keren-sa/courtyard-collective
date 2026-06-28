@@ -3,6 +3,7 @@ import Layout from "../layouts/Layout.astro";
 import ListingCard from "../components/ListingCard.astro";
 import CourtyardPersonalityCard from "../components/CourtyardPersonalityCard.astro";
 import TestimonialBlock from "../components/TestimonialBlock.astro";
+import Picture from "../components/Picture.astro";
 import {
   apartments as staticApartments,
   courtyards as staticCourtyards,
@@ -18,9 +19,6 @@ const [{ data: apartments }, { data: courtyards }, { data: testimonials }] = awa
   fetchCollection<Courtyard>("Courtyards", staticCourtyards, { sortField: "order" }),
   fetchCollection<Testimonial>("Testimonials", staticTestimonials, { sortField: "order", limit: 3 }),
 ]);
-
-const heroImage =
-  "https://lh3.googleusercontent.com/aida-public/AB6AXuDmvoPZVOfcGy5dkyP4W-95HGibBxsHqybBGMlRpvGp8qA8-l1K8OnxZ7LK20xuhbmKodoGVpxRznIOOgwqlNg2dXuUXGUOOfp8Lb9g6nkkgsk-jaogql3pusd3uF4m6I0eXtYoiFVdxtrupQiwTdsXuCUxGE2M0Jsr_1LxV0Rp5xfCA_qsvmfG5FD6lfAPoPC4rKzeL73xr0WyL1y_oix96DpubZ3EzUHsrNBKNFd52B5rprInOQ0MQxVbDHuAGVrjYeX1jMqkiLbB";
 
 const orgJsonLd = {
   "@context": "https://schema.org",
@@ -48,13 +46,12 @@ const homepageApartments = apartments.slice(0, 6);
 >
   <header class="relative w-full overflow-hidden" style="min-height: 88vh;">
     <div class="absolute inset-0">
-      <img
-        src={heroImage}
+      <Picture
+        name="hero"
         alt="A vine-shaded Tbilisi courtyard at golden hour, carved wooden balconies, dappled light through grapevines."
+        sizes="100vw"
+        loading="eager"
         fetchpriority="high"
-        decoding="async"
-        width="1600"
-        height="2100"
         class="w-full h-full object-cover"
       />
       <div
@@ -212,11 +209,10 @@ const homepageApartments = apartments.slice(0, 6);
         </a>
       </div>
       <div class="relative">
-        <img
-          src="https://lh3.googleusercontent.com/aida-public/AB6AXuAzX3RZEeiK5zlO0fZtqzhJCGfA1wMUtY5LmiKRcUoqITKXDJrQhs20r8fWTwITOtNcdBAf0UbwckqIjC16J_D7pgtXo2w8UYlRK3llkb8yDm_FD2LrY6a3NBOyQTa8lgCfTIPn4FDnh9Q66s4Jzr2nl22TeDas2Vu1eGzbtmFOzTzmB349Y6K5paug2L6g_6tDamX-X9CGFIZ-kiRUn38Xe8hlHqZJdXcKbrYcvg1-esaUpCOM0mm8Y_ktyUbxRwLUPgbvjZILprXu"
+        <Picture
+          name="meet-tea"
           alt="Two people in soft afternoon light sharing tea on a vine-shaded balcony."
-          loading="lazy"
-          decoding="async"
+          sizes="(min-width: 768px) 50vw, 100vw"
           class="w-full aspect-square object-cover border border-[color:var(--color-border)]"
         />
         <div

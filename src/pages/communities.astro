@@ -1,6 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import CourtyardPersonalityCard from "../components/CourtyardPersonalityCard.astro";
+import Picture from "../components/Picture.astro";
 import {
   courtyards as staticCourtyards,
   apartments as staticApartments,
@@ -14,19 +15,10 @@ const [{ data: courtyards }, { data: apartments }] = await Promise.all([
   fetchCollection<Apartment>("Apartments", staticApartments, { sortField: "order" }),
 ]);
 
-const courtyardImages: Record<string, { src: string; alt: string }> = {
-  lados: {
-    src: "https://lh3.googleusercontent.com/aida-public/AB6AXuCVjuugT66r7Kj9MrXo6YbhO4K2iln6w7tqkMhuOvxrM2L9yKkbeUAkmvlzcLb03ZcYXERW5bK8_34RVY6LKP5WWQ6a5U-zpQ4caQXShEd1NKwFmbTa8gCj0jVBB0CaXHLlIr6L8MVmTUu-73uN4w0dGMYfO_5w1RxAEpoMGYIKuAsXdChjAOGr9ppueTLpB3W5jBmyt7zYWMF3xoX5AFAj21KPTcoB9MyLsRkn5XEeajROQ659bmF7X5fN_Oim3JUFd6gAVPvVHuk7",
-    alt: "Long weathered table under a canopy of grapevines, Lado's Courtyard at golden hour.",
-  },
-  mzias: {
-    src: "https://lh3.googleusercontent.com/aida-public/AB6AXuBJMJwd8UFY8hI9XcGEYEzNvyP37nFJjo7iBLztZWl62xHseH8AMWKPWrxKWj2YH4PlsA8BBCt752LKUPp6BzOmHZys0ugcxzMWhtiGNSnA_UhwH_H2U8p0GoqSZK5V3gHk2ykTsfVDCTWPp3h9cXGOKT0X03nNTgXyNqjKATHs1p-TNVkRIh7GLdM76frcM1r-XBjBK6O-i4djyFmnxPkmwCui6FPiKORamY3VxSUCoP6WswwOQaBhaLWmHIM-Fw9fLJAxGubtKriE",
-    alt: "Vine-leaf shadows on a quiet warm wooden floor, antique chair, soft afternoon light.",
-  },
-  ramazis: {
-    src: "https://lh3.googleusercontent.com/aida-public/AB6AXuCVgQXYQKJG2g5FRZ6HWRIQQOnvVUNsBqdzBC3C7DlSSEioSRCG5he9RAzmzfYO4wAhCWUOux2kq0Z-c3YBoDPf3zZlKwjiRlo9DufJZKGE-IBtsBfeGJZsx3h28vyszmuHHpmmwqPobPVF8hhI_kJt9-ZJ22sngrVYVPeqwie7R7Til7TOGx_IRsIwwRrauguVUQTVg1UYqPkNFxUEXFQWDycavk1l6ng9fQiWC9Or2f8bsZrLFk2jUHTC_KezDq6rpKeUsZerMN3W",
-    alt: "Wrought-iron spiral staircase winding through ivy in Ramaz's Courtyard.",
-  },
+const courtyardImages: Record<string, { name: string; alt: string }> = {
+  lados: { name: "apt-long-table", alt: "Long weathered table under a canopy of grapevines, Lado's Courtyard at golden hour." },
+  mzias: { name: "apt-quiet-corner", alt: "Vine-leaf shadows on a quiet warm wooden floor, antique chair, soft afternoon light." },
+  ramazis: { name: "apt-stairwell-cat", alt: "Wrought-iron spiral staircase winding through ivy in Ramaz's Courtyard." },
 };
 ---
 
@@ -63,11 +55,10 @@ const courtyardImages: Record<string, { src: string; alt: string }> = {
       >
         <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-12 items-start">
           <div class:list={["md:col-span-7", reverse && "md:order-2"]}>
-            <img
-              src={img.src}
+            <Picture
+              name={img.name}
               alt={img.alt}
-              loading="lazy"
-              decoding="async"
+              sizes="(min-width: 768px) 58vw, 100vw"
               class="w-full aspect-[4/3] object-cover border border-[color:var(--color-border)]"
             />
           </div>

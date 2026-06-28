@@ -1,0 +1,47 @@
+---
+interface Props {
+  name: string; // base filename without extension, e.g. "hero" or "apt-grapevine-flat"
+  alt: string;
+  sizes?: string;
+  loading?: "eager" | "lazy";
+  fetchpriority?: "high" | "auto" | "low";
+  decoding?: "auto" | "async" | "sync";
+  class?: string;
+  width?: number;
+  height?: number;
+}
+
+const {
+  name,
+  alt,
+  sizes = "(min-width: 768px) 33vw, 100vw",
+  loading = "lazy",
+  fetchpriority,
+  decoding = "async",
+  class: className,
+  width = 512,
+  height = 512,
+} = Astro.props;
+
+const base = `/images/${name}`;
+const widths = [320, 512];
+const srcset = (ext: string) =>
+  widths.map((w) => `${base}-${w}.${ext} ${w}w`).join(", ");
+---
+
+<picture>
+  <source type="image/avif" srcset={srcset("avif")} sizes={sizes} />
+  <source type="image/webp" srcset={srcset("webp")} sizes={sizes} />
+  <img
+    src={`${base}-512.png`}
+    srcset={srcset("png")}
+    sizes={sizes}
+    alt={alt}
+    width={width}
+    height={height}
+    loading={loading}
+    decoding={decoding}
+    fetchpriority={fetchpriority}
+    class={className}
+  />
+</picture>

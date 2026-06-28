@@ -1,4 +1,5 @@
 ---
+import Picture from "./Picture.astro";
 import GossipMeter from "./GossipMeter.astro";
 import { formatPrice, type Apartment } from "../data/content";
 
@@ -6,17 +7,23 @@ interface Props {
   apt: Apartment;
   aspect?: string;
   loading?: "eager" | "lazy";
+  sizes?: string;
 }
-const { apt, aspect = "aspect-[4/5]", loading = "lazy" } = Astro.props;
+const {
+  apt,
+  aspect = "aspect-[4/5]",
+  loading = "lazy",
+  sizes = "(min-width: 768px) 33vw, 100vw",
+} = Astro.props;
 ---
 
 <article class="group">
   <div class:list={[aspect, "overflow-hidden border border-[color:var(--color-border)] mb-5 relative"]}>
-    <img
-      src={apt.image}
+    <Picture
+      name={apt.imageKey}
       alt={apt.imageAlt}
+      sizes={sizes}
       loading={loading}
-      decoding="async"
       class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
     />
     <div class="absolute top-3 left-3 bg-[color:var(--color-background)]/95 px-3 py-1 caps text-[color:var(--color-text)] border border-[color:var(--color-border)]">

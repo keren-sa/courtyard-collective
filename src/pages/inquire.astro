@@ -1,6 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import BuyerInquiryForm from "../components/BuyerInquiryForm.tsx";
+import Picture from "../components/Picture.astro";
 import { apartments, courtyards, faqs } from "../data/content";
 
 const apartmentOptions = [
@@ -40,11 +41,10 @@ const faqJsonLd = {
 
     <aside class="md:col-span-5 md:pt-20">
       <div class="bg-[color:var(--color-surface)] border border-[color:var(--color-border)] p-6 md:p-8 sticky top-24">
-        <img
-          src="https://lh3.googleusercontent.com/aida-public/AB6AXuAzX3RZEeiK5zlO0fZtqzhJCGfA1wMUtY5LmiKRcUoqITKXDJrQhs20r8fWTwITOtNcdBAf0UbwckqIjC16J_D7pgtXo2w8UYlRK3llkb8yDm_FD2LrY6a3NBOyQTa8lgCfTIPn4FDnh9Q66s4Jzr2nl22TeDas2Vu1eGzbtmFOzTzmB349Y6K5paug2L6g_6tDamX-X9CGFIZ-kiRUn38Xe8hlHqZJdXcKbrYcvg1-esaUpCOM0mm8Y_ktyUbxRwLUPgbvjZILprXu"
+        <Picture
+          name="meet-tea"
           alt="A quiet Tbilisi courtyard balcony with vines and warm light."
-          loading="lazy"
-          decoding="async"
+          sizes="(min-width: 768px) 40vw, 100vw"
           class="w-full aspect-[4/5] object-cover mb-6 border border-[color:var(--color-border)]"
         />
         <div class="caps text-[color:var(--color-text-muted)] mb-2">Snapshot</div>

@@ -5,7 +5,8 @@
   "scripts": {
     "astro": "astro",
     "dev": "wix dev",
-    "build": "wix build",
+    "preprocess:images": "node scripts/preprocess-images.mjs",
+    "build": "node scripts/preprocess-images.mjs && wix build",
     "wix": "wix",
     "preview": "wix preview",
     "release": "wix release",
@@ -35,6 +36,7 @@
     "@wix/cli": "^1.1.92",
     "@wix/cloud-provider-fetch-adapter": "^1.0.0",
     "react": "18.3.1",
-    "react-dom": "18.3.1"
+    "react-dom": "18.3.1",
+    "sharp": "^0.35.1"
   }
 }
