@@ -9,6 +9,13 @@ const apartmentOptions = [
   ...apartments.map((a) => ({ value: `apartment:${a.slug}`, label: `${a.title} — ${a.courtyardName}` })),
 ];
 
+const wixClientId =
+  (Astro.locals as any)?.runtime?.env?.WIX_CLIENT_ID ||
+  (Astro.locals as any)?.WIX_CLIENT_ID ||
+  import.meta.env.WIX_CLIENT_ID ||
+  process.env.WIX_CLIENT_ID ||
+  "";
+
 const faqJsonLd = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
@@ -36,7 +43,7 @@ const faqJsonLd = {
         chapter you'd like to write here, and we'll find the well that already feels like yours.
       </p>
 
-      <BuyerInquiryForm client:idle apartmentOptions={apartmentOptions} />
+      <BuyerInquiryForm client:idle apartmentOptions={apartmentOptions} wixClientId={wixClientId} />
     </div>
 
     <aside class="md:col-span-5 md:pt-20">

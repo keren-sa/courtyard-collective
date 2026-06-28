@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import { createClient, OAuthStrategy } from "@wix/sdk";
+import { items } from "@wix/data";
 
 interface Option {
   value: string;
@@ -7,6 +9,7 @@ interface Option {
 
 interface Props {
   apartmentOptions: Option[];
+  wixClientId: string;
 }
 
 type Status = "idle" | "submitting" | "success" | "error";
@@ -17,31 +20,72 @@ const timelineOptions = [
   { value: "just-looking", label: "Just looking" },
 ];
 
-export default function BuyerInquiryForm({ apartmentOptions }: Props) {
+const TIMELINE_LABEL: Record<string, string> = {
+  immediate: "Within 3 months",
+  "3-6": "3 – 6 months",
+  "just-looking": "Just looking",
+};
+
+const COLLECTION_ID = "Inquiries";
+
+export default function BuyerInquiryForm({ apartmentOptions, wixClientId }: Props) {
   const [status, setStatus] = useState<Status>("idle");
   const [error, setError] = useState<string | null>(null);
+
+  const wix = useMemo(
+    () =>
+      createClient({
+        modules: { items },
+        auth: OAuthStrategy({ clientId: wixClientId }),
+      }),
+    [wixClientId],
+  );
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const form = e.currentTarget;
-    const data = Object.fromEntries(new FormData(form).entries());
+    const fd = new FormData(form);
+    const get = (k: string) => (fd.get(k) ?? "").toString().trim();
+
+    const name = get("name");
+    const email = get("email");
+    const phone = get("phone");
+    const apartmentOrCourtyardOfInterest = get("apartmentOrCourtyardOfInterest");
+    const howYouLikeToLive = get("howYouLikeToLive");
+    const timeline = get("timeline");
+
+    const errors: string[] = [];
+    if (name.length < 2) errors.push("Please share your name.");
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) errors.push("That email looks off.");
+    if (!timeline) errors.push("Please pick a timeline.");
+    if (errors.length) {
+      setStatus("error");
+      setError(errors.join(" "));
+      return;
+    }
+
     setStatus("submitting");
     setError(null);
+
+    const payload = {
+      name,
+      email,
+      phone,
+      apartmentOrCourtyardOfInterest,
+      howYouLikeToLive,
+      timeline,
+      timelineLabel: TIMELINE_LABEL[timeline] ?? timeline,
+      submittedAt: new Date().toISOString(),
+    };
+
     try {
-      const res = await fetch("/api/inquire", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
-      if (!res.ok) {
-        const body = await res.json().catch(() => ({}));
-        throw new Error(body.message || "Something went wrong. Please try again.");
-      }
+      await (wix as any).items.insert(COLLECTION_ID, payload);
       setStatus("success");
       form.reset();
-    } catch (err) {
+    } catch (err: any) {
       setStatus("error");
-      setError(err instanceof Error ? err.message : "Something went wrong.");
+      const reason = err?.details?.applicationError?.description || err?.message || "Something went wrong.";
+      setError(reason);
     }
   }
 
