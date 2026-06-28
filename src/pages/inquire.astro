@@ -1,0 +1,84 @@
+---
+import Layout from "../layouts/Layout.astro";
+import BuyerInquiryForm from "../components/BuyerInquiryForm.tsx";
+import { apartments, courtyards, faqs } from "../data/content";
+
+const apartmentOptions = [
+  ...courtyards.map((c) => ({ value: `courtyard:${c.slug}`, label: `${c.name} (whole courtyard)` })),
+  ...apartments.map((a) => ({ value: `apartment:${a.slug}`, label: `${a.title} — ${a.courtyardName}` })),
+];
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqs.map((f) => ({
+    "@type": "Question",
+    name: f.q,
+    acceptedAnswer: { "@type": "Answer", text: f.a },
+  })),
+};
+---
+
+<Layout
+  title="Ask About a Courtyard · The Courtyard Collective"
+  description="Tell us how you like to live and we'll write back, neighbor to neighbor, within a day."
+  jsonLd={faqJsonLd}
+>
+  <section class="px-5 md:px-20 pt-16 md:pt-24 pb-24 md:pb-28 grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-16">
+    <div class="md:col-span-7">
+      <div class="caps text-[color:var(--color-text-muted)] mb-4">Ask about a courtyard</div>
+      <h1 class="font-display text-4xl md:text-6xl text-[color:var(--color-primary)] leading-[1.04] mb-6">
+        Begin a conversation.
+      </h1>
+      <p class="text-lg text-[color:var(--color-text)]/85 leading-relaxed measure mb-12">
+        Our courtyards are more than just addresses. They're living histories. Tell us about the
+        chapter you'd like to write here, and we'll find the well that already feels like yours.
+      </p>
+
+      <BuyerInquiryForm client:idle apartmentOptions={apartmentOptions} />
+    </div>
+
+    <aside class="md:col-span-5 md:pt-20">
+      <div class="bg-[color:var(--color-surface)] border border-[color:var(--color-border)] p-6 md:p-8 sticky top-24">
+        <img
+          src="https://lh3.googleusercontent.com/aida-public/AB6AXuAzX3RZEeiK5zlO0fZtqzhJCGfA1wMUtY5LmiKRcUoqITKXDJrQhs20r8fWTwITOtNcdBAf0UbwckqIjC16J_D7pgtXo2w8UYlRK3llkb8yDm_FD2LrY6a3NBOyQTa8lgCfTIPn4FDnh9Q66s4Jzr2nl22TeDas2Vu1eGzbtmFOzTzmB349Y6K5paug2L6g_6tDamX-X9CGFIZ-kiRUn38Xe8hlHqZJdXcKbrYcvg1-esaUpCOM0mm8Y_ktyUbxRwLUPgbvjZILprXu"
+          alt="A quiet Tbilisi courtyard balcony with vines and warm light."
+          loading="lazy"
+          decoding="async"
+          class="w-full aspect-[4/5] object-cover mb-6 border border-[color:var(--color-border)]"
+        />
+        <div class="caps text-[color:var(--color-text-muted)] mb-2">Snapshot</div>
+        <blockquote class="font-display italic text-xl text-[color:var(--color-primary)] leading-snug">
+          “The best conversations in Sololaki happen where the shadows meet the stone.”
+        </blockquote>
+      </div>
+    </aside>
+  </section>
+
+  <section class="px-5 md:px-20 py-20 md:py-24 bg-[color:var(--color-surface)] border-y border-[color:var(--color-border)]">
+    <div class="max-w-3xl mx-auto">
+      <div class="caps text-[color:var(--color-text-muted)] mb-4">FAQs</div>
+      <h2 class="font-display text-3xl md:text-4xl text-[color:var(--color-primary)] leading-tight mb-10">
+        The questions everyone asks first.
+      </h2>
+      <div class="space-y-2">
+        {faqs.map((f, i) => (
+          <details class="group border-b border-[color:var(--color-border)] py-5" open={i === 0}>
+            <summary class="cursor-pointer list-none flex items-start justify-between gap-6">
+              <h3 class="font-display text-xl md:text-2xl text-[color:var(--color-primary)] italic">
+                {f.q}
+              </h3>
+              <span
+                class="caps text-[color:var(--color-primary)] mt-1 transition-transform group-open:rotate-45"
+                aria-hidden="true"
+              >
+                +
+              </span>
+            </summary>
+            <p class="mt-4 text-[color:var(--color-text)]/85 leading-relaxed measure">{f.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+</Layout>

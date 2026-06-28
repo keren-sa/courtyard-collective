@@ -1,0 +1,21 @@
+---
+interface Props {
+  pathname: string;
+}
+const { pathname } = Astro.props;
+const hideOn = ["/inquire"];
+if (hideOn.includes(pathname)) return Astro.redirect ? null : null;
+---
+
+{!hideOn.includes(pathname) && (
+  <div
+    class="md:hidden fixed bottom-0 inset-x-0 z-40 bg-[color:var(--color-background)] border-t border-[color:var(--color-border)] px-4 py-3 flex items-center gap-3 shadow-[0_-8px_24px_-12px_rgba(58,36,16,0.18)]"
+  >
+    <a
+      href="/courtyards"
+      class="flex-1 text-center caps text-[color:var(--color-text-muted)] py-2"
+      >Apartments</a
+    >
+    <a href="/inquire" class="btn-primary flex-1 text-xs uppercase">Ask about a courtyard</a>
+  </div>
+)}

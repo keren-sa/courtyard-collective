@@ -1,0 +1,93 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { aboutStory } from "../data/content";
+
+const aboutJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "RealEstateAgent",
+  name: "The Courtyard Collective",
+  description: aboutStory.body,
+  foundingDate: "2019",
+  areaServed: "Tbilisi, Georgia",
+  priceRange: "$$",
+  knowsLanguage: ["en", "ka", "ru"],
+  address: { "@type": "PostalAddress", addressLocality: "Tbilisi", addressCountry: "GE" },
+};
+---
+
+<Layout
+  title="About · The Courtyard Collective"
+  description="Why we sell flats by their courtyards, and how we vet a community's welcome before introducing a buyer."
+  jsonLd={aboutJsonLd}
+>
+  <section class="px-5 md:px-20 pt-16 md:pt-24 pb-16 md:pb-20">
+    <div class="max-w-4xl">
+      <div class="caps text-[color:var(--color-text-muted)] mb-4">About the Collective</div>
+      <h1 class="font-display text-4xl md:text-6xl text-[color:var(--color-primary)] italic leading-[1.04]">
+        {aboutStory.heading}
+      </h1>
+    </div>
+  </section>
+
+  <section class="px-5 md:px-20 pb-20 md:pb-28">
+    <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-12">
+      <div class="md:col-span-7">
+        <p class="text-lg text-[color:var(--color-text)]/90 leading-[1.75] first-letter:font-display first-letter:text-7xl first-letter:float-left first-letter:mr-3 first-letter:mt-1 first-letter:leading-[0.85] first-letter:text-[color:var(--color-primary)]">
+          {aboutStory.body}
+        </p>
+      </div>
+      <div class="md:col-span-5">
+        <img
+          src="https://lh3.googleusercontent.com/aida-public/AB6AXuC8qKrTe3j0SjCErG_QJD_UiVRh1YTSY7VV84mXzJdy7QN9Ml2RtYXK_uZRzQ8R5GJLfEKZZesVQuP7suFT-VIdI34qbxzdJgiy-MHN4EMSm72xo91un2YnlfIJ-u4QU060Yo4KVLwqPp0zQOq_GoFXsLvjQeFyWFgf1BGJ7iRJMFgaSFpyFfB1KGLtmDheYOaHLFUf-r8SjckUKZ0DCu7P4YJl_-EYBIIJS7wY5gkIESQSAelFhebErIfM6o4yAAnT08v2AZE85AuA"
+          alt="An aged turquoise door in a courtyard, sunlight through dust motes."
+          loading="lazy"
+          decoding="async"
+          class="w-full aspect-[3/4] object-cover border border-[color:var(--color-border)]"
+        />
+        <p class="caps text-[color:var(--color-text-muted)] mt-3 text-center italic">
+          A doorway in Sololaki — the kind of detail you only notice on the second visit.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="px-5 md:px-20 py-20 md:py-24 bg-[color:var(--color-surface)] border-y border-[color:var(--color-border)]">
+    <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16">
+      <div>
+        <div class="caps text-[color:var(--color-text-muted)] mb-3">How we vet a welcome</div>
+        <h2 class="font-display text-3xl md:text-4xl text-[color:var(--color-primary)] leading-tight">
+          Four quiet checks
+          <span class="italic block">before we list a courtyard.</span>
+        </h2>
+      </div>
+      <ul class="space-y-5">
+        {[
+          "An afternoon with at least two long-term residents, on their own terms.",
+          "An honest grapevine-age and gossip-rating reading we put in writing.",
+          "Confirmation that the shared spaces are actually shared — table, ladder, stairwell cat included.",
+          "A standing invitation from the neighbors to bring buyers around for tea.",
+        ].map((item) => (
+          <li class="flex gap-4 items-start">
+            <span class="w-2 h-2 rounded-full bg-[color:var(--color-accent)] mt-2.5 shrink-0" aria-hidden="true"></span>
+            <span class="text-[color:var(--color-text)]/85 leading-relaxed">{item}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="px-5 md:px-20 py-20 md:py-24 bg-[color:var(--color-dark)] text-[color:var(--color-on-dark)]">
+    <div class="max-w-4xl mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-8">
+      <h2 class="font-display text-3xl md:text-4xl leading-tight">
+        Curious about a specific history?
+        <span class="italic block opacity-90">We're ready to walk you through it.</span>
+      </h2>
+      <a
+        href="/inquire"
+        class="inline-flex items-center justify-center px-8 py-4 bg-[color:var(--color-on-dark)] text-[color:var(--color-primary)] uppercase tracking-widest text-xs font-semibold rounded-sm hover:opacity-90 shrink-0"
+      >
+        Ask about a courtyard
+      </a>
+    </div>
+  </section>
+</Layout>

@@ -1,0 +1,250 @@
+---
+import Layout from "../layouts/Layout.astro";
+import ListingCard from "../components/ListingCard.astro";
+import CourtyardPersonalityCard from "../components/CourtyardPersonalityCard.astro";
+import TestimonialBlock from "../components/TestimonialBlock.astro";
+import {
+  apartments as staticApartments,
+  courtyards as staticCourtyards,
+  testimonials as staticTestimonials,
+  type Apartment,
+  type Courtyard,
+  type Testimonial,
+} from "../data/content";
+import { fetchCollection } from "../lib/wix";
+
+const [{ data: apartments }, { data: courtyards }, { data: testimonials }] = await Promise.all([
+  fetchCollection<Apartment>("Apartments", staticApartments, { sortField: "order", limit: 6 }),
+  fetchCollection<Courtyard>("Courtyards", staticCourtyards, { sortField: "order" }),
+  fetchCollection<Testimonial>("Testimonials", staticTestimonials, { sortField: "order", limit: 3 }),
+]);
+
+const heroImage =
+  "https://lh3.googleusercontent.com/aida-public/AB6AXuDmvoPZVOfcGy5dkyP4W-95HGibBxsHqybBGMlRpvGp8qA8-l1K8OnxZ7LK20xuhbmKodoGVpxRznIOOgwqlNg2dXuUXGUOOfp8Lb9g6nkkgsk-jaogql3pusd3uF4m6I0eXtYoiFVdxtrupQiwTdsXuCUxGE2M0Jsr_1LxV0Rp5xfCA_qsvmfG5FD6lfAPoPC4rKzeL73xr0WyL1y_oix96DpubZ3EzUHsrNBKNFd52B5rprInOQ0MQxVbDHuAGVrjYeX1jMqkiLbB";
+
+const orgJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "RealEstateAgent",
+  name: "The Courtyard Collective",
+  description:
+    "Tbilisi apartments sold by their courtyards. Buyers meet the neighbors before the notary.",
+  areaServed: "Tbilisi, Georgia",
+  foundingDate: "2019",
+  priceRange: "$$",
+  address: { "@type": "PostalAddress", addressLocality: "Tbilisi", addressCountry: "GE" },
+  sameAs: [
+    "https://instagram.com/courtyardcollective.tbilisi",
+    "https://instagram.com/thesharedtable",
+  ],
+};
+
+const homepageApartments = apartments.slice(0, 6);
+---
+
+<Layout
+  title="The Courtyard Collective — Tbilisi apartments sold by their courtyards"
+  description="Italian courtyards in Tbilisi, sold as communities. Meet the neighbors before the notary; published grapevine ages and gossip ratings per courtyard."
+  jsonLd={orgJsonLd}
+>
+  <header class="relative w-full overflow-hidden" style="min-height: 88vh;">
+    <div class="absolute inset-0">
+      <img
+        src={heroImage}
+        alt="A vine-shaded Tbilisi courtyard at golden hour, carved wooden balconies, dappled light through grapevines."
+        fetchpriority="high"
+        decoding="async"
+        width="1600"
+        height="2100"
+        class="w-full h-full object-cover"
+      />
+      <div
+        class="absolute inset-0"
+        style="background: linear-gradient(120deg, rgba(38,25,14,0.78) 0%, rgba(38,25,14,0.35) 45%, rgba(38,25,14,0) 75%);"
+      />
+    </div>
+    <div class="relative z-10 px-5 md:px-20 pt-32 md:pt-44 pb-24 md:w-2/3 lg:w-3/5">
+      <h1 class="font-display text-white leading-[1.04]" style="font-size: clamp(2.25rem, 6vw, 4.5rem);">
+        You're not buying a flat.
+        <span class="block italic font-normal lowercase opacity-95 mt-2" style="font-size: 0.78em;">
+          you're buying a balcony seat at someone's shared table.
+        </span>
+      </h1>
+
+      <div class="mt-10 flex flex-col sm:flex-row gap-4">
+        <a href="/inquire" class="btn-primary uppercase tracking-widest text-xs">
+          Ask about a courtyard
+        </a>
+        <a
+          href="/communities"
+          class="btn-ghost uppercase tracking-widest text-xs"
+          style="color:#fff;border-color:rgba(255,255,255,0.5);"
+        >
+          Read the courtyard profiles
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <section class="px-5 md:px-20 py-16 bg-[color:var(--color-surface)] border-y border-[color:var(--color-border)]">
+    <div class="max-w-6xl mx-auto">
+      <div class="caps text-[color:var(--color-text-muted)] text-center mb-10">
+        How a courtyard sale works
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+        {[
+          {
+            n: "01",
+            title: "See the apartment.",
+            body: "We meet you in the courtyard, walk the flat, and answer the things real-estate listings never do.",
+          },
+          {
+            n: "02",
+            title: "Sit in the courtyard.",
+            body: "Tea, or wine, or both. Long enough for the neighbors to drift down and ask who you are.",
+          },
+          {
+            n: "03",
+            title: "Then we talk paperwork.",
+            body: "Only once everyone — including you — feels the fit. Three to six weeks, no rush.",
+          },
+        ].map((step) => (
+          <div class="border-l border-[color:var(--color-border)] pl-6">
+            <span class="font-display text-3xl text-[color:var(--color-primary)] opacity-60">{step.n}</span>
+            <h3 class="font-display text-2xl mt-3 mb-2 text-[color:var(--color-primary)] italic">
+              {step.title}
+            </h3>
+            <p class="text-[color:var(--color-text-muted)] leading-relaxed">{step.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="px-5 md:px-20 py-20 md:py-28">
+    <div class="max-w-6xl mx-auto">
+      <div class="mb-16 md:mb-20 md:max-w-2xl">
+        <div class="caps text-[color:var(--color-text-muted)] mb-3">Available now</div>
+        <h2 class="font-display text-4xl md:text-5xl text-[color:var(--color-primary)] leading-tight">
+          Six apartments open right now, <span class="italic">each one wrapped around a courtyard that's been gossiping for a century.</span>
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-y-16 md:gap-x-8">
+        <div class="md:col-span-7">
+          <ListingCard apt={homepageApartments[0]} aspect="aspect-[4/5]" loading="eager" />
+        </div>
+        <div class="md:col-span-4 md:col-start-9 md:mt-16">
+          <ListingCard apt={homepageApartments[1]} aspect="aspect-[3/4]" />
+        </div>
+        <div class="md:col-span-5">
+          <ListingCard apt={homepageApartments[2]} aspect="aspect-[16/10]" />
+        </div>
+        <div class="md:col-span-6 md:col-start-7 md:-mt-16">
+          <ListingCard apt={homepageApartments[3]} aspect="aspect-[4/3]" />
+        </div>
+        <div class="md:col-span-4">
+          <ListingCard apt={homepageApartments[4]} aspect="aspect-[4/5]" />
+        </div>
+        <div class="md:col-span-7 md:col-start-6">
+          <ListingCard apt={homepageApartments[5]} aspect="aspect-[16/9]" />
+        </div>
+      </div>
+
+      <div class="mt-16 text-center">
+        <a href="/courtyards" class="btn-ghost uppercase tracking-widest text-xs">See all apartments</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="px-5 md:px-20 py-20 md:py-28 bg-[color:var(--color-surface)] border-y border-[color:var(--color-border)]">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-16 max-w-2xl mx-auto">
+        <div class="caps text-[color:var(--color-text-muted)] mb-3">Courtyard personalities</div>
+        <h2 class="font-display text-4xl md:text-5xl text-[color:var(--color-primary)] leading-tight">
+          One has a grapevine older than the Soviet Union.
+          <span class="italic block">One has a cat that owns the stairwell.</span>
+          <span class="block mt-2">Pick your kind of loud.</span>
+        </h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {courtyards.map((c) => (
+          <CourtyardPersonalityCard
+            name={c.name}
+            grapevineAgeYears={c.grapevineAgeYears}
+            gossipRating={c.gossipRating}
+            shortLine={c.shortLine}
+            href={`/communities#${c.slug}`}
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="px-5 md:px-20 py-20 md:py-28">
+    <div class="max-w-6xl mx-auto">
+      <div class="caps text-[color:var(--color-text-muted)] mb-3">Voices from the courtyard</div>
+      <h2 class="font-display text-4xl md:text-5xl text-[color:var(--color-primary)] leading-tight mb-16 max-w-2xl">
+        People who came for the flat <span class="italic">and stayed for the Sunday table.</span>
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-16">
+        {testimonials.map((t, i) => (
+          <TestimonialBlock testimonial={t} offset={i === 1} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="px-5 md:px-20 py-20 md:py-28 bg-[color:var(--color-surface)] border-y border-[color:var(--color-border)]">
+    <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20 items-center">
+      <div>
+        <div class="caps text-[color:var(--color-text-muted)] mb-3">Meet the neighbors</div>
+        <h2 class="font-display text-4xl md:text-5xl text-[color:var(--color-primary)] leading-tight mb-6">
+          Nobody signs <span class="italic">until they've shared a glass</span> with the people on the
+          other side of the wall.
+        </h2>
+        <p class="text-[color:var(--color-text)]/85 leading-relaxed mb-8 measure">
+          Our process is slow on purpose. You'll meet the courtyard before you meet the notary. We
+          set the table and step back. By the time the paperwork comes out, you'll already know
+          who's loud, who's kind, and who keeps the shared ladder.
+        </p>
+        <a href="/meet-the-neighbors" class="btn-ghost uppercase tracking-widest text-xs">
+          The full process
+        </a>
+      </div>
+      <div class="relative">
+        <img
+          src="https://lh3.googleusercontent.com/aida-public/AB6AXuAzX3RZEeiK5zlO0fZtqzhJCGfA1wMUtY5LmiKRcUoqITKXDJrQhs20r8fWTwITOtNcdBAf0UbwckqIjC16J_D7pgtXo2w8UYlRK3llkb8yDm_FD2LrY6a3NBOyQTa8lgCfTIPn4FDnh9Q66s4Jzr2nl22TeDas2Vu1eGzbtmFOzTzmB349Y6K5paug2L6g_6tDamX-X9CGFIZ-kiRUn38Xe8hlHqZJdXcKbrYcvg1-esaUpCOM0mm8Y_ktyUbxRwLUPgbvjZILprXu"
+          alt="Two people in soft afternoon light sharing tea on a vine-shaded balcony."
+          loading="lazy"
+          decoding="async"
+          class="w-full aspect-square object-cover border border-[color:var(--color-border)]"
+        />
+        <div
+          class="hidden md:block absolute -bottom-8 -right-6 bg-[color:var(--color-background)] p-6 border border-[color:var(--color-border)] max-w-[260px]"
+        >
+          <p class="font-display italic text-[color:var(--color-primary)] text-lg leading-snug">
+            “The best friendships in Tbilisi start with a shared plate and a long story.”
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="px-5 md:px-20 py-20 md:py-28 bg-[color:var(--color-dark)] text-[color:var(--color-on-dark)]">
+    <div class="max-w-3xl mx-auto text-center">
+      <h2 class="font-display text-4xl md:text-5xl leading-tight mb-6">
+        Tell us how you like to live.
+        <span class="italic block mt-2">We'll tell you which courtyard already feels like yours.</span>
+      </h2>
+      <p class="opacity-80 mb-10 leading-relaxed text-lg">
+        No account, no spam. We'll write back within a day, neighbor to neighbor.
+      </p>
+      <a
+        href="/inquire"
+        class="inline-flex items-center justify-center px-8 py-4 bg-[color:var(--color-on-dark)] text-[color:var(--color-primary)] uppercase tracking-widest text-xs font-semibold rounded-sm hover:opacity-90"
+      >
+        Ask about a courtyard
+      </a>
+    </div>
+  </section>
+</Layout>

@@ -1,0 +1,57 @@
+---
+interface Props {
+  pathname: string;
+}
+const { pathname } = Astro.props;
+
+const links = [
+  { href: "/courtyards", label: "Apartments" },
+  { href: "/communities", label: "Courtyards" },
+  { href: "/meet-the-neighbors", label: "Neighbors" },
+  { href: "/about", label: "About" },
+];
+
+const isActive = (href: string) =>
+  href === "/" ? pathname === "/" : pathname.startsWith(href);
+---
+
+<nav
+  class="sticky top-0 z-50 w-full border-b border-[color:var(--color-border)] bg-[color:var(--color-background)]/95 backdrop-blur"
+>
+  <div
+    class="flex items-center justify-between px-5 py-4 md:px-20"
+  >
+    <a
+      href="/"
+      class="font-display text-2xl md:text-3xl text-[color:var(--color-primary)] leading-none"
+    >
+      The Courtyard Collective
+    </a>
+
+    <div class="hidden md:flex items-center gap-8">
+      {links.map((l) => (
+        <a
+          href={l.href}
+          class:list={[
+            "text-sm tracking-wide transition-colors",
+            isActive(l.href)
+              ? "text-[color:var(--color-primary)] border-b border-[color:var(--color-primary)] pb-1 font-semibold"
+              : "text-[color:var(--color-text-muted)] hover:text-[color:var(--color-text)]",
+          ]}
+        >
+          {l.label}
+        </a>
+      ))}
+      <a href="/inquire" class="btn-primary text-xs uppercase tracking-widest">
+        Ask about a courtyard
+      </a>
+    </div>
+
+    <a
+      href="/inquire"
+      class="md:hidden btn-primary text-xs uppercase tracking-widest px-4 py-2"
+    >
+      Inquire
+    </a>
+  </div>
+</nav>

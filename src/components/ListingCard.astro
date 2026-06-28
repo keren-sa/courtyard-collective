@@ -1,0 +1,56 @@
+---
+import GossipMeter from "./GossipMeter.astro";
+import { formatPrice, type Apartment } from "../data/content";
+
+interface Props {
+  apt: Apartment;
+  aspect?: string;
+  loading?: "eager" | "lazy";
+}
+const { apt, aspect = "aspect-[4/5]", loading = "lazy" } = Astro.props;
+---
+
+<article class="group">
+  <div class:list={[aspect, "overflow-hidden border border-[color:var(--color-border)] mb-5 relative"]}>
+    <img
+      src={apt.image}
+      alt={apt.imageAlt}
+      loading={loading}
+      decoding="async"
+      class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+    />
+    <div class="absolute top-3 left-3 bg-[color:var(--color-background)]/95 px-3 py-1 caps text-[color:var(--color-text)] border border-[color:var(--color-border)]">
+      {apt.courtyardName}
+    </div>
+  </div>
+
+  <div class="flex items-baseline justify-between gap-4 mb-2">
+    <h3 class="font-display text-2xl text-[color:var(--color-primary)] italic">
+      {apt.title}
+    </h3>
+    <span class="font-display text-xl text-[color:var(--color-primary)] whitespace-nowrap">
+      {formatPrice(apt.price)}
+    </span>
+  </div>
+
+  <p class="text-sm text-[color:var(--color-text-muted)] mb-4">
+    {apt.rooms} rooms · {apt.squareMeters} m² · {apt.floor}
+  </p>
+
+  <p class="text-[15px] leading-relaxed text-[color:var(--color-text)]/90 mb-5 measure">
+    {apt.courtyardStory}
+  </p>
+
+  <div class="flex items-center justify-between caps text-[color:var(--color-text-muted)] pt-4 border-t border-[color:var(--color-border)]/70 mb-2">
+    <span>Grapevine {apt.grapevineAgeYears} yrs</span>
+    <span>Gossip {apt.gossipRating}/10</span>
+  </div>
+  <GossipMeter rating={apt.gossipRating} />
+
+  <a
+    href={`/inquire?interest=apartment:${apt.slug}`}
+    class="inline-flex items-center gap-2 mt-5 caps text-[color:var(--color-primary)] hover:underline"
+  >
+    Ask about this apartment <span aria-hidden="true">→</span>
+  </a>
+</article>

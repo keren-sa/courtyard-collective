@@ -1,0 +1,96 @@
+---
+interface Props {
+  ageYears: number;
+}
+const { ageYears } = Astro.props;
+
+const clamped = Math.max(20, Math.min(100, ageYears));
+const lengthRatio = (clamped - 20) / 80;
+const baseLength = 110;
+const extraLength = lengthRatio * 130;
+const totalLength = baseLength + extraLength;
+const leafCount = Math.max(3, Math.round(3 + lengthRatio * 5));
+
+const points: { x: number; y: number; angle: number }[] = [];
+for (let i = 0; i <= 40; i++) {
+  const t = i / 40;
+  const x = 16 + t * totalLength;
+  const y = 22 + Math.sin(t * Math.PI * 2.4) * 14 + t * 6;
+  const angle = Math.cos(t * Math.PI * 2.4) * 60;
+  points.push({ x, y, angle });
+}
+const path = points
+  .map((p, i) => (i === 0 ? `M ${p.x.toFixed(1)} ${p.y.toFixed(1)}` : `L ${p.x.toFixed(1)} ${p.y.toFixed(1)}`))
+  .join(" ");
+
+const leaves: { x: number; y: number; angle: number; size: number }[] = [];
+for (let i = 0; i < leafCount; i++) {
+  const t = 0.18 + (i / leafCount) * 0.78;
+  const idx = Math.floor(t * 40);
+  const p = points[idx];
+  leaves.push({
+    x: p.x,
+    y: p.y,
+    angle: p.angle + (i % 2 === 0 ? 18 : -18),
+    size: 5.5 + (i % 3) * 1.2,
+  });
+}
+
+const tendrils: { x: number; y: number; angle: number }[] = [];
+for (let i = 1; i < 4; i++) {
+  const t = 0.3 + i * 0.18;
+  const idx = Math.floor(t * 40);
+  if (idx < points.length) {
+    tendrils.push({ x: points[idx].x, y: points[idx].y, angle: points[idx].angle });
+  }
+}
+
+const svgWidth = Math.max(180, totalLength + 40);
+---
+
+<div
+  class="vine-tendril pointer-events-none absolute -top-2 -right-4 opacity-40 group-hover:opacity-60 transition-opacity"
+  aria-hidden="true"
+>
+  <svg
+    width={svgWidth}
+    height="80"
+    viewBox={`0 0 ${svgWidth} 80`}
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    style={`transform: rotate(-8deg)`}
+  >
+    <path
+      d={path}
+      stroke="var(--color-accent)"
+      stroke-width="1.4"
+      stroke-linecap="round"
+      fill="none"
+    />
+    {tendrils.map((t) => (
+      <path
+        d={`M ${t.x} ${t.y} q 4 -6 8 -2 q 4 4 -1 6`}
+        stroke="var(--color-accent)"
+        stroke-width="1"
+        stroke-linecap="round"
+        fill="none"
+        opacity="0.7"
+      />
+    ))}
+    {leaves.map((leaf) => (
+      <g transform={`translate(${leaf.x} ${leaf.y}) rotate(${leaf.angle})`}>
+        <path
+          d={`M 0 0 q ${leaf.size} -${leaf.size * 0.6} ${leaf.size * 2} 0 q -${leaf.size} ${leaf.size * 0.6} -${leaf.size * 2} 0 z`}
+          fill="var(--color-accent)"
+          opacity="0.55"
+        />
+        <path
+          d={`M 0 0 L ${leaf.size * 2} 0`}
+          stroke="var(--color-dark)"
+          stroke-width="0.4"
+          opacity="0.4"
+        />
+      </g>
+    ))}
+  </svg>
+</div>

@@ -1,0 +1,18 @@
+---
+interface Props {
+  rating: number;
+  total?: number;
+}
+const { rating, total = 10 } = Astro.props;
+const dots = Array.from({ length: total }, (_, i) => i < rating);
+---
+
+<div class="flex items-center justify-between gap-3">
+  <span class="caps text-[10px] text-[color:var(--color-text-muted)]">Quiet</span>
+  <div class="gossip-meter flex-1 justify-between">
+    {dots.map((filled) => (
+      <span class:list={["gossip-meter-dot", filled && "filled"]} />
+    ))}
+  </div>
+  <span class="caps text-[10px] text-[color:var(--color-text-muted)]">Lively</span>
+</div>

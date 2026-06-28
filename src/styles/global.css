@@ -1,0 +1,186 @@
+@import "tailwindcss";
+
+@import "@fontsource/instrument-serif/400.css";
+@import "@fontsource/instrument-serif/400-italic.css";
+@import "@fontsource/source-serif-4/400.css";
+@import "@fontsource/source-serif-4/500.css";
+@import "@fontsource/source-serif-4/600.css";
+@import "@fontsource/source-serif-4/700.css";
+@import "@fontsource/source-serif-4/400-italic.css";
+
+@theme {
+  --color-background: #f5efe3;
+  --color-surface: #fbf7ee;
+  --color-text: #3a2410;
+  --color-text-muted: #6b5a45;
+  --color-border: #d9c9ae;
+  --color-primary: #582f0e;
+  --color-primary-hover: #3d1b00;
+  --color-accent: #4f6230;
+  --color-accent-soft: #d4ebab;
+  --color-dark: #26190e;
+  --color-on-dark: #f2e9d8;
+
+  --font-display: "Instrument Serif", ui-serif, Georgia, serif;
+  --font-body: "Source Serif 4", ui-serif, Georgia, serif;
+
+  --text-display-xl: 4.5rem;
+  --text-display-xl--line-height: 1.05;
+  --text-display-xl--letter-spacing: -0.02em;
+  --text-display-lg: 3rem;
+  --text-display-lg--line-height: 1.1;
+  --text-display-lg--letter-spacing: -0.02em;
+  --text-display-md: 2.25rem;
+  --text-display-md--line-height: 1.1;
+  --text-headline: 2rem;
+  --text-headline--line-height: 1.2;
+  --text-title: 1.25rem;
+  --text-title--line-height: 1.4;
+  --text-body: 1.0625rem;
+  --text-body--line-height: 1.65;
+  --text-body-sm: 0.875rem;
+  --text-body-sm--line-height: 1.5;
+  --text-caps: 0.75rem;
+  --text-caps--line-height: 1;
+  --text-caps--letter-spacing: 0.16em;
+
+  --spacing-gutter: 1.5rem;
+  --spacing-margin-mobile: 1.25rem;
+  --spacing-margin-desktop: 5rem;
+  --spacing-section: 4rem;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.font-display {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+.measure {
+  max-width: 65ch;
+}
+
+.caps {
+  font-size: var(--text-caps);
+  letter-spacing: var(--text-caps--letter-spacing);
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0.875rem 1.5rem;
+  background-color: var(--color-primary);
+  color: #fff;
+  border-radius: 4px;
+  font-family: var(--font-body);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+  cursor: pointer;
+  border: none;
+}
+.btn-primary:hover {
+  background-color: var(--color-primary-hover);
+}
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0.875rem 1.5rem;
+  background-color: transparent;
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  font-family: var(--font-body);
+  font-weight: 500;
+  text-decoration: none;
+  transition: border-color 0.2s ease;
+}
+.btn-ghost:hover {
+  border-color: var(--color-primary);
+}
+
+.gossip-meter {
+  display: inline-flex;
+  gap: 4px;
+  align-items: center;
+}
+.gossip-meter-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--color-border);
+}
+.gossip-meter-dot.filled {
+  background-color: var(--color-accent);
+}
+
+@keyframes vine-draw {
+  from {
+    stroke-dashoffset: 240;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+.vine-tendril path {
+  stroke-dasharray: 240;
+  stroke-dashoffset: 240;
+  animation: vine-draw 1.6s ease-out forwards;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.reveal {
+  animation: fade-up 0.7s ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vine-tendril path,
+  .reveal {
+    animation: none !important;
+    stroke-dashoffset: 0 !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+input,
+select,
+textarea {
+  font-family: var(--font-body);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 3px;
+}

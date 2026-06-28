@@ -1,0 +1,23 @@
+---
+import type { Testimonial } from "../data/content";
+
+interface Props {
+  testimonial: Testimonial;
+  offset?: boolean;
+}
+const { testimonial, offset = false } = Astro.props;
+---
+
+<figure class:list={["relative pt-12", offset && "md:mt-24"]}>
+  <span
+    class="absolute top-0 left-0 font-display text-6xl text-[color:var(--color-border)] leading-none select-none"
+    aria-hidden="true">“</span
+  >
+  <blockquote class="font-display italic text-xl md:text-2xl text-[color:var(--color-text)] leading-relaxed mb-6">
+    {testimonial.quote}
+  </blockquote>
+  <figcaption>
+    <div class="caps text-[color:var(--color-primary)] mb-1">{testimonial.name}</div>
+    <div class="text-sm text-[color:var(--color-text-muted)] italic">{testimonial.detail}</div>
+  </figcaption>
+</figure>

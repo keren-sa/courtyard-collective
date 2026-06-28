@@ -1,0 +1,135 @@
+---
+import Layout from "../layouts/Layout.astro";
+import CourtyardPersonalityCard from "../components/CourtyardPersonalityCard.astro";
+import {
+  courtyards as staticCourtyards,
+  apartments as staticApartments,
+  type Courtyard,
+  type Apartment,
+} from "../data/content";
+import { fetchCollection } from "../lib/wix";
+
+const [{ data: courtyards }, { data: apartments }] = await Promise.all([
+  fetchCollection<Courtyard>("Courtyards", staticCourtyards, { sortField: "order" }),
+  fetchCollection<Apartment>("Apartments", staticApartments, { sortField: "order" }),
+]);
+
+const courtyardImages: Record<string, { src: string; alt: string }> = {
+  lados: {
+    src: "https://lh3.googleusercontent.com/aida-public/AB6AXuCVjuugT66r7Kj9MrXo6YbhO4K2iln6w7tqkMhuOvxrM2L9yKkbeUAkmvlzcLb03ZcYXERW5bK8_34RVY6LKP5WWQ6a5U-zpQ4caQXShEd1NKwFmbTa8gCj0jVBB0CaXHLlIr6L8MVmTUu-73uN4w0dGMYfO_5w1RxAEpoMGYIKuAsXdChjAOGr9ppueTLpB3W5jBmyt7zYWMF3xoX5AFAj21KPTcoB9MyLsRkn5XEeajROQ659bmF7X5fN_Oim3JUFd6gAVPvVHuk7",
+    alt: "Long weathered table under a canopy of grapevines, Lado's Courtyard at golden hour.",
+  },
+  mzias: {
+    src: "https://lh3.googleusercontent.com/aida-public/AB6AXuBJMJwd8UFY8hI9XcGEYEzNvyP37nFJjo7iBLztZWl62xHseH8AMWKPWrxKWj2YH4PlsA8BBCt752LKUPp6BzOmHZys0ugcxzMWhtiGNSnA_UhwH_H2U8p0GoqSZK5V3gHk2ykTsfVDCTWPp3h9cXGOKT0X03nNTgXyNqjKATHs1p-TNVkRIh7GLdM76frcM1r-XBjBK6O-i4djyFmnxPkmwCui6FPiKORamY3VxSUCoP6WswwOQaBhaLWmHIM-Fw9fLJAxGubtKriE",
+    alt: "Vine-leaf shadows on a quiet warm wooden floor, antique chair, soft afternoon light.",
+  },
+  ramazis: {
+    src: "https://lh3.googleusercontent.com/aida-public/AB6AXuCVgQXYQKJG2g5FRZ6HWRIQQOnvVUNsBqdzBC3C7DlSSEioSRCG5he9RAzmzfYO4wAhCWUOux2kq0Z-c3YBoDPf3zZlKwjiRlo9DufJZKGE-IBtsBfeGJZsx3h28vyszmuHHpmmwqPobPVF8hhI_kJt9-ZJ22sngrVYVPeqwie7R7Til7TOGx_IRsIwwRrauguVUQTVg1UYqPkNFxUEXFQWDycavk1l6ng9fQiWC9Or2f8bsZrLFk2jUHTC_KezDq6rpKeUsZerMN3W",
+    alt: "Wrought-iron spiral staircase winding through ivy in Ramaz's Courtyard.",
+  },
+};
+---
+
+<Layout
+  title="Courtyard Profiles · The Courtyard Collective"
+  description="Read the personality of each Tbilisi courtyard we sell into: grapevine age, who lives there, who keeps the shared table."
+>
+  <section class="px-5 md:px-20 pt-16 md:pt-24 pb-12 md:pb-16">
+    <div class="max-w-5xl">
+      <div class="caps text-[color:var(--color-text-muted)] mb-4">Courtyard Profiles</div>
+      <h1 class="font-display text-4xl md:text-6xl text-[color:var(--color-primary)] leading-[1.04]">
+        Profiles in the shared history
+        <span class="italic block">of Tbilisi's courtyards.</span>
+      </h1>
+      <p class="mt-8 text-lg text-[color:var(--color-text)]/85 leading-relaxed measure">
+        Three courtyards, three temperatures. The grapevine age, the gossip rating, the kind of
+        afternoon you can expect — published before the floorplan, because that's the part you
+        actually live with.
+      </p>
+    </div>
+  </section>
+
+  {courtyards.map((c, i) => {
+    const aptsHere = apartments.filter((a) => a.courtyardSlug === c.slug);
+    const img = courtyardImages[c.slug];
+    const reverse = i % 2 === 1;
+    return (
+      <section
+        id={c.slug}
+        class:list={[
+          "px-5 md:px-20 py-20 md:py-28 scroll-mt-24",
+          i % 2 === 1 && "bg-[color:var(--color-surface)] border-y border-[color:var(--color-border)]",
+        ]}
+      >
+        <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-12 items-start">
+          <div class:list={["md:col-span-7", reverse && "md:order-2"]}>
+            <img
+              src={img.src}
+              alt={img.alt}
+              loading="lazy"
+              decoding="async"
+              class="w-full aspect-[4/3] object-cover border border-[color:var(--color-border)]"
+            />
+          </div>
+          <div class:list={["md:col-span-5", reverse && "md:order-1"]}>
+            <div class="caps text-[color:var(--color-text-muted)] mb-3">{c.district}</div>
+            <h2 class="font-display text-4xl md:text-5xl text-[color:var(--color-primary)] leading-tight mb-6">
+              {c.name}
+            </h2>
+            <p class="font-display italic text-xl text-[color:var(--color-primary)]/90 mb-6">
+              {c.shortLine}
+            </p>
+            <p class="text-[color:var(--color-text)]/85 leading-relaxed mb-8 measure">{c.story}</p>
+
+            <CourtyardPersonalityCard
+              name={c.name}
+              grapevineAgeYears={c.grapevineAgeYears}
+              gossipRating={c.gossipRating}
+              compact
+            />
+
+            {aptsHere.length > 0 && (
+              <div class="mt-10">
+                <div class="caps text-[color:var(--color-text-muted)] mb-4">
+                  Apartments here
+                </div>
+                <ul class="space-y-3 mb-8">
+                  {aptsHere.map((a) => (
+                    <li class="flex items-baseline justify-between gap-4 border-b border-[color:var(--color-border)]/60 pb-2">
+                      <a href={`/courtyards/${a.slug}`} class="font-display italic text-lg text-[color:var(--color-primary)] hover:underline">
+                        {a.title}
+                      </a>
+                      <span class="caps text-[color:var(--color-text-muted)]">
+                        {a.rooms} rooms · {a.squareMeters} m²
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+                <a href="/courtyards" class="btn-ghost uppercase tracking-widest text-xs">
+                  See apartments here
+                </a>
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+    );
+  })}
+
+  <section class="px-5 md:px-20 py-20 md:py-24 bg-[color:var(--color-dark)] text-[color:var(--color-on-dark)] text-center">
+    <div class="max-w-2xl mx-auto">
+      <h2 class="font-display text-3xl md:text-4xl mb-6 leading-tight">
+        Which kind of loud do you want?
+      </h2>
+      <p class="opacity-80 mb-8 leading-relaxed">
+        Tell us how you like to live and we'll point you to the courtyard that already feels like yours.
+      </p>
+      <a
+        href="/inquire"
+        class="inline-flex items-center justify-center px-8 py-4 bg-[color:var(--color-on-dark)] text-[color:var(--color-primary)] uppercase tracking-widest text-xs font-semibold rounded-sm hover:opacity-90"
+      >
+        Ask about a courtyard
+      </a>
+    </div>
+  </section>
+</Layout>
