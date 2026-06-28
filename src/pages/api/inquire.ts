@@ -1,6 +1,6 @@
 import type { APIRoute } from "astro";
 import { insertItem } from "../../lib/wix";
-import { sendInquiryConfirmation } from "../../lib/email";
+import { processInquiry } from "../../lib/email";
 
 export const prerender = false;
 
@@ -13,7 +13,9 @@ interface InquiryBody {
   timeline?: string;
 }
 
-export const POST: APIRoute = async ({ request }) => {
+export const POST: APIRoute = async ({ request, locals }) => {
+  const env = readEnv(locals);
+
   let body: InquiryBody;
   try {
     body = await request.json();
@@ -36,23 +38,56 @@ export const POST: APIRoute = async ({ request }) => {
     submittedAt: new Date().toISOString(),
   };
 
-  const [cmsResult, emailResult] = await Promise.all([
+  const [cmsResult, inquiryResult] = await Promise.all([
     insertItem("Inquiries", payload),
-    sendInquiryConfirmation({
-      name: payload.name,
-      email: payload.email,
-      phone: payload.phone,
-      apartmentOrCourtyardOfInterest: payload.apartmentOrCourtyardOfInterest,
-      howYouLikeToLive: payload.howYouLikeToLive,
-      timeline: payload.timeline,
-    }),
+    processInquiry(
+      {
+        name: payload.name,
+        email: payload.email,
+        phone: payload.phone,
+        apartmentOrCourtyardOfInterest: payload.apartmentOrCourtyardOfInterest,
+        howYouLikeToLive: payload.howYouLikeToLive,
+        timeline: payload.timeline,
+      },
+      env,
+    ),
   ]);
 
   if (!cmsResult.ok) console.warn("[inquire] CMS insert failed:", cmsResult.reason);
-  if (!emailResult.ok) console.warn("[inquire] email send failed:", emailResult.reason);
+  if (!inquiryResult.crm.ok) console.warn("[inquire] CRM submit failed:", inquiryResult.crm.reason);
+  if (!inquiryResult.email.ok) console.warn("[inquire] email send failed:", inquiryResult.email.reason);
 
-  return json({ ok: true, emailed: emailResult.ok }, 200);
+  return json(
+    {
+      ok: true,
+      crm: inquiryResult.crm.ok,
+      emailed: inquiryResult.email.ok,
+    },
+    200,
+  );
 };
+
+function readEnv(locals: any) {
+  const runtimeEnv = (locals as any)?.runtime?.env ?? {};
+  return {
+    clientId:
+      (locals as any)?.WIX_CLIENT_ID ||
+      runtimeEnv.WIX_CLIENT_ID ||
+      process.env.WIX_CLIENT_ID,
+    resendApiKey:
+      (locals as any)?.RESEND_API_KEY ||
+      runtimeEnv.RESEND_API_KEY ||
+      process.env.RESEND_API_KEY,
+    resendFrom:
+      (locals as any)?.RESEND_FROM ||
+      runtimeEnv.RESEND_FROM ||
+      process.env.RESEND_FROM,
+    resendReplyTo:
+      (locals as any)?.RESEND_REPLY_TO ||
+      runtimeEnv.RESEND_REPLY_TO ||
+      process.env.RESEND_REPLY_TO,
+  };
+}
 
 function validate(b: InquiryBody): string[] {
   const errs: string[] = [];
