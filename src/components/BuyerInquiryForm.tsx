@@ -78,14 +78,36 @@ export default function BuyerInquiryForm({ apartmentOptions, wixClientId }: Prop
       submittedAt: new Date().toISOString(),
     };
 
+    // 1) Email send via server route (Resend). This is what the buyer expects to receive.
+    let emailOk = false;
+    let emailMessage: string | undefined;
+    try {
+      const res = await fetch("/api/inquire", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const body = (await res.json().catch(() => ({}))) as { ok?: boolean; message?: string };
+      emailOk = !!body.ok;
+      if (!emailOk) emailMessage = body.message;
+    } catch (err: any) {
+      emailMessage = err?.message ?? "Network error";
+    }
+
+    // 2) Best-effort CMS storage. Silently no-ops if the Inquiries collection
+    //    doesn't exist yet — the buyer's email send still succeeds.
     try {
       await (wix as any).items.insert(COLLECTION_ID, payload);
+    } catch {
+      // ignore — collection may not exist or visitor lacks insert permission
+    }
+
+    if (emailOk) {
       setStatus("success");
       form.reset();
-    } catch (err: any) {
+    } else {
       setStatus("error");
-      const reason = err?.details?.applicationError?.description || err?.message || "Something went wrong.";
-      setError(reason);
+      setError(emailMessage ?? "Something went wrong sending your inquiry.");
     }
   }
 
@@ -98,7 +120,7 @@ export default function BuyerInquiryForm({ apartmentOptions, wixClientId }: Prop
           neighbor to neighbor.
         </h3>
         <p className="text-[color:var(--color-text-muted)]">
-          In the meantime, you can read the{" "}
+          We just emailed you a copy of what you sent — in the meantime, you can read the{" "}
           <a className="underline" href="/communities">
             courtyard profiles
           </a>{" "}
